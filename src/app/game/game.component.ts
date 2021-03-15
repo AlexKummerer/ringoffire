@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 import { AddPlayerDialogComponent } from '../add-player-dialog/add-player-dialog.component';
-
 
 @Component({
   selector: 'app-game',
@@ -20,7 +23,6 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
- 
   }
 
   newGame() {
@@ -31,11 +33,17 @@ export class GameComponent implements OnInit {
     if (!this.pickCardAnimation) {
       this.currentCard = this.game.stack.pop();
       this.pickCardAnimation = true;
-     
-      console.log('New Card:',  this.currentCard);
-      console.log('Game is:' , this.game);
+
+      console.log('New Card:', this.currentCard);
+      console.log('Game is:', this.game);
+
+      this.game.currentPlayer++;
+
+      this.game.currentPlayer =
+        this.game.currentPlayer % this.game.players.length;
+
       setTimeout(() => {
-        this.game.playedCards.push(this.currentCard)
+        this.game.playedCards.push(this.currentCard);
         this.pickCardAnimation = false;
       }, 1500);
     }
@@ -44,13 +52,11 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddPlayerDialogComponent);
 
-    dialogRef.afterClosed().subscribe((name: string )=> {
-     this.game.players.push(name);
-     
+    dialogRef.afterClosed().subscribe((name: string) => {
+      if ( name && name.length >0) {
+        this.game.players.push(name);
+      }
+  
     });
   }
-
-
 }
-
-
