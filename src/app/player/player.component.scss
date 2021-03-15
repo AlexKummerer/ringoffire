@@ -5,6 +5,7 @@
     font-size: 1rem;
     border-top-left-radius: 3rem;
     border-bottom-left-radius: 3rem;
+    overflow: auto;
     span {
         font-size: 1.5rem;
         margin-left: 1rem;
@@ -20,4 +21,21 @@
 
 .player-active {
     background-color: orange !important;
+}
+
+@media (max-width:800px) {
+    .player {
+        width: 160px;
+        span {
+            font-size: 1rem !important;
+            margin-left: 0 !important;
+        }
+        background-color: rgba(240, 222, 190, 00.4);
+        img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 100%;
+        }
+    }
 }

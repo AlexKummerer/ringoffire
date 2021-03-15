@@ -8,6 +8,8 @@
     align-items: center;
     img {
         height: 100vh;
+        width: 100vw;
+        object-fit: cover;
     }
 }
 
@@ -19,8 +21,9 @@
     justify-content: center;
     bottom: 20%;
     img {
-        width: 30%;
+        width: 15vw;
         height: auto;
+        min-width: 15rem;
         &:hover {
             filter: brightness(1.25);
             cursor: pointer;
