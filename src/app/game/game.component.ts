@@ -16,8 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  pickCardAnimation = false;
-  currentCard: string = '';
+
   game: Game;
   name: string;
   gameId: string;
@@ -30,7 +29,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
-    this.openDialog();
+    //this.openDialog();
     this.route.params.subscribe((params) => {
       console.log(params.id);
       this.gameId = params.id;
@@ -47,6 +46,8 @@ export class GameComponent implements OnInit {
         this.game.playedCards = game.playedCards;
         this.game.players = game.players;
         this.game.stack = game.stack;
+        this.game.pickCardAnimation = game.pickCardAnimation;
+        this.game.currentCard = game.currentCard;
       });
   }
 
@@ -57,12 +58,12 @@ export class GameComponent implements OnInit {
   takeCard() {
     if (this.game.players.length > 1) {
       
-      if (!this.pickCardAnimation) {
-        this.currentCard = this.game.stack.pop();
-        this.saveGame();
-        this.pickCardAnimation = true;
+      if (!this.game.pickCardAnimation) {
+        this.game.currentCard = this.game.stack.pop();
+  
+        this.game.pickCardAnimation = true;
 
-        console.log('New Card:', this.currentCard);
+        console.log('New Card:', this.game.currentCard);
         console.log('Game is:', this.game);
 
         this.game.currentPlayer++;
@@ -70,10 +71,12 @@ export class GameComponent implements OnInit {
         this.game.currentPlayer =
           this.game.currentPlayer % this.game.players.length;
 
-        setTimeout(() => {
-          this.game.playedCards.push(this.currentCard);
           this.saveGame();
-          this.pickCardAnimation = false;
+
+        setTimeout(() => {
+          this.game.playedCards.push(this.game.currentCard);
+          this.game.pickCardAnimation = false;
+          this.saveGame();
         }, 1500);
       }
     } else {

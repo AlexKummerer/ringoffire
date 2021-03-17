@@ -39,7 +39,6 @@ import { environment } from '../environments/environment';
     MatFormFieldModule,
     FormsModule,
     MatCardModule,
-    MatFormFieldModule,
     MatInputModule,
   ],
   providers: [],
