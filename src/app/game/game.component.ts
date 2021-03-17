@@ -30,13 +30,13 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
-
+    this.openDialog();
     this.route.params.subscribe((params) => {
       console.log(params.id);
       this.gameId = params.id;
     });
 
-    this.openDialog();
+
     this.firestore
       .collection('games')
       .doc(this.gameId)
@@ -56,8 +56,10 @@ export class GameComponent implements OnInit {
 
   takeCard() {
     if (this.game.players.length > 1) {
+      
       if (!this.pickCardAnimation) {
         this.currentCard = this.game.stack.pop();
+        this.saveGame();
         this.pickCardAnimation = true;
 
         console.log('New Card:', this.currentCard);
@@ -70,6 +72,7 @@ export class GameComponent implements OnInit {
 
         setTimeout(() => {
           this.game.playedCards.push(this.currentCard);
+          this.saveGame();
           this.pickCardAnimation = false;
         }, 1500);
       }
@@ -90,6 +93,7 @@ export class GameComponent implements OnInit {
   }
 
   saveGame() {
+    console.log('Saving game to DB', this.game.toJson(), this.gameId);
     this.firestore
       .collection('games')
       .doc(this.gameId)
