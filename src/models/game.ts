@@ -4,6 +4,11 @@ export class Game {
   public playedCards: string[] = [];
   public currentPlayer: number = 0;
 
+  /**
+   *
+   * Will shuffle the array before game starts
+   *
+   */
   constructor() {
     for (let i = 1; i < 14; i++) {
       this.stack.push('spade_' + i);
@@ -13,22 +18,45 @@ export class Game {
     }
     shuffle(this.stack);
   }
+
+ /**
+  * 
+  * @returns a JSON will return
+  */
+  public toJson() {
+    return {
+      players: this.players,
+      stack: this.stack,
+      playedCard: this.playedCards,
+      currentPlayer: this.currentPlayer,
+    };
+  }
 }
+
+/**
+ *
+ * Shuffle Card Stack
+ *
+ * @param array : array = stack
+ *
+ * @returns  : shuffled stack
+ */
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
 
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
 
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
+  return array;
 }
